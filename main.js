@@ -14,12 +14,28 @@ function getDataByFileName(fileName) {
         $("#creator").text(file["Creator"]);
         for(var i = 1 ; i <= 10; i++){
             var similarFile = file['r' + i];
-            similarDiv.append(createImgByFileName(similarFile));
+            similarDiv.append(createImgByFileName(similarFile, false));
         }
     });
 }
 
-function createImgByFileName(fileName){
+function getRandomByFileName() {
+    var randomDiv = $("#randomImg");
+
+    $.getJSON('./data.json', function (json) {
+        // console.log(json[fileName]);
+        var keys = Object.keys(json);
+
+       
+
+        for(var i = 1 ; i <= 30; i++){
+            var randomImg =  keys[Math.floor(keys.length * Math.random())];
+            randomDiv.append(createImgByFileName(randomImg, true));
+        }
+    });
+}
+
+function createImgByFileName(fileName, hide){
     var img = document.createElement('img');
     img.src = rootDomain + fileName;
     img.title = fileName;
@@ -27,7 +43,14 @@ function createImgByFileName(fileName){
     img.addEventListener("click", function(){
         getDataByFileName(fileName);
     });
+    if(hide){
+        img.addEventListener("click", function(){
+            $("#randomImg").hide();
+            $("#search").removeClass("d-none");
+        });
+    }
     return img;
 }
 
-getDataByFileName(exampleFile)
+// getDataByFileName(exampleFile)
+getRandomByFileName();
