@@ -17,6 +17,7 @@ function getDataByFileName(fileName) {
 }
 
 function loadJson() {
+    $("#search").hide();
     $.getJSON('./data.json', function (json) {
         global_json = json;
         getRandomByFileName();
@@ -43,7 +44,7 @@ function createImgByFileName(fileName, hide) {
     if (hide) {
         img.addEventListener("click", function () {
             $("#entry").hide();
-            $("#search").removeClass("d-none");
+            $("#search").show();
         });
     }
     return img;
@@ -53,5 +54,6 @@ document.getElementById("homeBtn").addEventListener("click", function () {
     $("#entry").show();
     $("#search").hide();
 });
+
 
 loadJson();
